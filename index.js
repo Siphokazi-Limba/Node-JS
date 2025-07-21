@@ -1,56 +1,48 @@
 const express = require('express');
 const app = express();
 
-app.use(express.json()); 
-
+app.use(express.json());
 const PORT = 3000;
 
-
-app.get('/', (req, res) => {
-  res.json({ message: "Welcome to MY API hey Kaze3 wow i tried" });
+app.get('/employees',(req, res) =>{
+    res.json({ message: "This is the GET employee path"});
 });
 
-app.get('/products', (req, res) => {
-  res.json({ message: "This is the GET product path it gets products" });
+app.post('/employees',(req, res) =>{
+    res.json({ message: "This is the POST employee path - an employee was added"});
 });
 
-app.post('/products', (req, res) => {
-  res.json({ message: "This is the POST product path and something was added" });
+app.put('/employees',(req, res) =>{
+    res.json({ message: "This is the PUT employee path - an employee record was updated"});
+});
+ 
+app.patch('/employees',(req, res) =>{
+    res.json({ message: "This is the PATCH employee path - partial update applied "});
 });
 
-app.put('/products', (req, res) => {
-  res.json({ message: "This is the PUT product path and something was updated" });
+app.delete('/employees',(req, res) =>{
+    res.json({ message: "This is the DELETE employee path - an employee was removed"});
 });
 
-app.patch('/products', (req, res) => {
-  res.json({ message: "This is the PATCH product path and something was modified" });
+app.get('/managers',(req, res) =>{
+    res.json({ message: "This is the GET manager path"});
 });
 
-app.delete('/products', (req, res) => {
-  res.json({ message: "This is the DELETE product path and something was removed" });
+app.post('/managers',(req, res) =>{
+    res.json({ message: "This is the POST manager path - an manager was added"});
 });
 
-
-app.get('/users', (req, res) => {
-  res.json({ message: "This is the GET user path" });
+app.put('/managers',(req, res) =>{
+    res.json({ message: "This is the PUT manager path - an manager record was updated"});
+});
+ 
+app.patch('/managers',(req, res) =>{
+    res.json({ message: "This is the PATCH manager path - partial update applied "});
 });
 
-app.post('/users', (req, res) => {
-  res.json({ message: "This is the POST user path and a user was added" });
+app.delete('/managers',(req, res) =>{
+    res.json({ message: "This is the DELETE manager path - an manager was removed"});
 });
-
-app.put('/users', (req, res) => {
-  res.json({ message: "This is the PUT user path and a user was updated" });
-});
-
-app.patch('/users', (req, res) => {
-  res.json({ message: "This is the PATCH user path and some user info was changed" });
-});
-
-app.delete('/users', (req, res) => {
-  res.json({ message: "This is the DELETE user path and a user was removed" });
-});
-
 app.listen(PORT, () => {
-  console.log(`SHOPLEFT server running on port ${PORT}`);
+    console.log(`PICK 'n STEAL API running on port ${PORT}`);
 });
