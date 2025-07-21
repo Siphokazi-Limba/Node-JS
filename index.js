@@ -1,56 +1,41 @@
-const express = require('express');
-const app = express();
+const db = require('./db');
 
-app.use(express.json()); 
+async function getAllEmployees() {
+    const [rows] = await db.query('SELECT * FROM employees');
+    console.log('All Employees:', rows);
+}
 
-const PORT = 3000;
-
-
-app.get('/', (req, res) => {
-  res.json({ message: "Welcome to MY API hey Kaze3 wow i tried" });
-});
-
-app.get('/products', (req, res) => {
-  res.json({ message: "This is the GET product path it gets products" });
-});
-
-app.post('/products', (req, res) => {
-  res.json({ message: "This is the POST product path and something was added" });
-});
-
-app.put('/products', (req, res) => {
-  res.json({ message: "This is the PUT product path and something was updated" });
-});
-
-app.patch('/products', (req, res) => {
-  res.json({ message: "This is the PATCH product path and something was modified" });
-});
-
-app.delete('/products', (req, res) => {
-  res.json({ message: "This is the DELETE product path and something was removed" });
-});
+async function getEmployeeById(id) {
+    const [rows] = await db.query('SELECT * FROM employees WHERE employee_id = ?', [id]);
+    console.log('Employee:', rows[0]);
+}
 
 
-app.get('/users', (req, res) => {
-  res.json({ message: "This is the GET user path" });
-});
+async function addEmployee() {
+    await db.query(
+        'INSERT INTO employees (first_name, last_name, email, phone_number,  department, salary) VALUES (?, ?, ?, ?, ?, ?)'
+     );
+    await getAllEmployees();
+}
+async function deleteEmployee(id) {
+  await db.query('DELETE FROM employees WHERE employee_id = ?', [id]);
+  await getAllEmployees();
+}
 
-app.post('/users', (req, res) => {
-  res.json({ message: "This is the POST user path and a user was added" });
-});
 
-app.put('/users', (req, res) => {
-  res.json({ message: "This is the PUT user path and a user was updated" });
-});
+async function updateEmployee(id, first, last, role, salary) {
+  await db.query(
+    'UPDATE employees SET first_name = ?, last_name = ?, role = ?, salary = ? WHERE employee_id = ?',
+    [first, last, role, salary, id]
+  );
+  await getEmployeeById(id);
+}
 
-app.patch('/users', (req, res) => {
-  res.json({ message: "This is the PATCH user path and some user info was changed" });
-});
+getAllEmployees();
+// addEmployee('Lerato', 'Dlamini', 'Security', 5500.00);
+// deleteEmployee(3);
+// updateEmployee(2, 'Thandi', 'Moyo', 'Manager', 9500.00);
+// getEmployeeById(1);
 
-app.delete('/users', (req, res) => {
-  res.json({ message: "This is the DELETE user path and a user was removed" });
-});
 
-app.listen(PORT, () => {
-  console.log(`SHOPLEFT server running on port ${PORT}`);
-});
+
