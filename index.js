@@ -1,56 +1,45 @@
-const express = require('express');
-const app = express();
+const db = require('./db');
 
-app.use(express.json()); 
+function getAllUsers() {
+    db.query('SELECT * FROM users', (err, results) => {
+        if (err) throw err;
+        console.log('All Users:', results);
+    });
+}
 
-const PORT = 3000;
+function getAllProducts() {
+   db.query('SELECT * FROM products', (err, results) => {
+        if (err) throw err;
+        console.log('All Products:', results);
+    });
+}
 
+function deleteProduct() {
+    db.query("DELETE FROM products WHERE product_code = 'baro1'", (err, result) => {
+        if (err) throw err;
+        console.log('Deleted product: baro1');
+    });
+}
 
-app.get('/', (req, res) => {
-  res.json({ message: "Welcome to MY API hey Kaze3 wow i tried" });
-});
+function insertNewProduct() {
+    const query = ("INSERT INTO products (product_code, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)");
+    const values = ['rips', 'Pork Ribs', 100.00, 15];
+    db.query(query, values, (err, result) => {
+        if (err) throw err;
+        console.log('Inserted new product: Pork Ribs');
+    });
+}
 
-app.get('/products', (req, res) => {
-  res.json({ message: "This is the GET product path it gets products" });
-});
-
-app.post('/products', (req, res) => {
-  res.json({ message: "This is the POST product path and something was added" });
-});
-
-app.put('/products', (req, res) => {
-  res.json({ message: "This is the PUT product path and something was updated" });
-});
-
-app.patch('/products', (req, res) => {
-  res.json({ message: "This is the PATCH product path and something was modified" });
-});
-
-app.delete('/products', (req, res) => {
-  res.json({ message: "This is the DELETE product path and something was removed" });
-});
-
-
-app.get('/users', (req, res) => {
-  res.json({ message: "This is the GET user path" });
-});
-
-app.post('/users', (req, res) => {
-  res.json({ message: "This is the POST user path and a user was added" });
-});
-
-app.put('/users', (req, res) => {
-  res.json({ message: "This is the PUT user path and a user was updated" });
-});
-
-app.patch('/users', (req, res) => {
-  res.json({ message: "This is the PATCH user path and some user info was changed" });
-});
-
-app.delete('/users', (req, res) => {
-  res.json({ message: "This is the DELETE user path and a user was removed" });
-});
-
-app.listen(PORT, () => {
-  console.log(`SHOPLEFT server running on port ${PORT}`);
-});
+function updateProduct() {
+    const query = "UPDATE products SET product_price = ?  WHERE product_name = ?";
+    const values = [25.99, 'Handy Andy'];
+    db.query(query, values, (err, result) => {
+        if (err) throw err;
+        console.log('Updated product: Handy Andy');
+    });
+}
+getAllUsers();
+getAllProducts();
+// deleteProduct();
+// insertNewProduct();
+// updateProduct();
